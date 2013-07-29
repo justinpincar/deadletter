@@ -20,8 +20,9 @@ module.exports = function(App) {
           return res.end();
         }
 
-        // TODO: Destroy note
-        return res.send(note);
+        note.destroy().success(function() {
+          return res.send(note);
+        });
       });
     }
   }
