@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" ng-app="whisper">
+<head>
+  <meta charset="utf-8">
+  <title>deadletter</title>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
+  <link rel="stylesheet" href="css/animate.min.css">
+  <link rel="stylesheet" href="css/baby-blue.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/aes.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: [ 'Source+Sans+Pro:300,400,600:latin' ]
+      }
+    });
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="pure-g-r" id="layout">
+      <div class="pure-u-1" id="main">
+        <div class="header">
+          <h1>deadletter</h1>
+          <img id="header-logo" src="/images/logo.png" />
+          <h2>Secure, private messaging</h2>
+          <div id="header-nav" class="pure-menu pure-menu-open pure-menu-horizontal" ng-controller="NavCtrl">
+            <ul>
+              <li ng-class="{'pure-menu-selected': selectedTab == 'about'}"><a ng-click="changeView('about')">About</a></li>
+              <li ng-class="{'pure-menu-selected': selectedTab == ''}"><a ng-click="changeView('')">Quick Note</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="content" ng-view></div>
+      </div>
+      <div id="footer">
+        Please help keep this site free! BTC donation address: 147Upf42zfnSeCLEcAbTnmm1sMxFqtYqK4
+      </div>
+    </div>
+  </body>
+</html>
+

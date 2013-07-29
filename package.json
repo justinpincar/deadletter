@@ -1,0 +1,16 @@
+{
+  "name": "whisper",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "async": "0.2.x",
+    "ejs": "0.8.x",
+    "express": "3.2.x",
+    "pg": "~0.10.2",
+    "semaphore": "1.0.x",
+    "sequelize": "1.6.x",
+    "sequelize-postgres": "1.6.x",
+    "stylus": "*"
+  }
+}
+

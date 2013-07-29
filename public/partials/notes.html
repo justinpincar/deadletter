@@ -1,0 +1,28 @@
+<h2 class="content-subhead">How it Works</h2>
+
+<p>
+Write your message below and submit the form. You will be given a url that provides one-time access to the message.
+</p>
+
+<div class="pure-g">
+  <form class="pure-form pure-form-aligned pure-u-2-3" style="display: block; margin-left: auto; margin-right: auto">
+    <fieldset>
+      <legend>Create a self-destructing note</legend>
+      <div class="pure-control-group pure-g">
+        <textarea id="note" class="pure-u-1" placeholder="The text you enter here will be encrypted." style="height: 120px" ng-disabled="hasBeenSent" ng-model="text"></textarea>
+      </div>
+
+      <button id="send-note" type="submit" class="pure-button pure-button-primary" ng-disabled="isSendDisabled()" ng-click="sendNote()">Submit</button>
+    </fieldset>
+  </form>
+</div>
+
+<div id="note-success" class="l-hidden alert alert-purple">
+  Your note can be viewed ONCE at the following URL:<br />
+  <input class="pure-u-1 note-url" type="text" ng-click="select($event)" value= "http://www.localhost:3000#/n/{{ salt }}/{{ pepper }}""http://www.localhost:3000#/n/{{ salt }}/{{ pepper }}"/>
+</div>
+
+<div id="note-error" class="l-hidden alert alert-red">
+  There was an error sending the note. Please refresh the page and try again.
+</div>
+

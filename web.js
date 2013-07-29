@@ -1,0 +1,66 @@
+var express = require('express');
+var path = require('path');
+var Sequelize = require('sequelize-postgres').sequelize;
+var postgres  = require('sequelize-postgres').postgres;
+
+var sequelize = new Sequelize('whisper', 'whisper', 'l27yzeG2IqaVrGWxajVd6uZ9mXwkPp6iQg8RBE49UfzKhil8Bgs5VhjHedkaUz7w', {
+  host: '127.0.0.1',
+  port: '5432',
+  dialect: 'postgres',
+  omitNull: true,
+  define: {
+    underscored: false,
+    syncOnAssociation: true,
+    charset: 'utf8',
+    collate: 'utf8_general_ci',
+    timestamps: true
+  }
+});
+
+var App = {};
+App.data = {};
+App.sequelize = sequelize;
+App.Models = {};
+App.Models.Note = require('./models/note').Note(sequelize);
+
+var app = express();
+App.app = app;
+
+app.configure(function() {
+  app.set('port', process.env.PORT || 3000);
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'ejs');
+  if (process.env.NODE_ENV !== "production") {
+    app.use(express.logger({
+      format: 'dev'
+    }));
+  }
+
+  app.use(express.favicon(__dirname + '/public/favicon.ico'));
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  if (process.env.NODE_ENV !== "production") {
+    app.use(require('stylus').middleware(__dirname + '/public'));
+  }
+  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(app.router);
+});
+
+app.configure('development', function(){
+  app.use(express.errorHandler());
+});
+
+var routes = require('./routes')(App);
+
+app.get('/', routes.root);
+app.post('/notes', routes.notes.create);
+app.get('/notes/:salt', routes.notes.show);
+
+app.get('*', function(req, res){
+  res.status(404);
+  return res.render('error/404');
+});
+
+app.listen(app.get('port'));
+console.log("Server listening for HTTP on port " + app.get('port') + " in " + app.get('env') + " mode");
+
