@@ -1,3 +1,4 @@
+var async = require('async');
 var express = require('express');
 var path = require('path');
 var Sequelize = require('sequelize-postgres').sequelize;
@@ -62,6 +63,19 @@ app.get('*', function(req, res){
   res.status(404);
   return res.end();
 });
+
+var destroyOldNotes = function() {
+  var cutoff = new Date((new Date()) - (1000 * 60 * 60 * 24 * 15));
+  App.Models.Note.findAll({where: ["\"createdAt\" < ?", cutoff]}).success(function(notes) {
+    async.each(notes, function(note, callback) {
+      note.destroy().success(function() {
+        callback();
+      });
+    }, function() {});
+  });
+};
+destroyOldNotes();
+setInterval(destroyOldNotes, 1000 * 60 * 60);
 
 app.listen(app.get('port'));
 console.log("Server listening for HTTP on port " + app.get('port') + " in " + app.get('env') + " mode");
