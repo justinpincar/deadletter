@@ -60,7 +60,7 @@ app.get('*', function(req, res){
   var fullURL = req.protocol + "://" + req.get('host') + req.url;
   console.log("404 for page: " + fullURL);
   res.status(404);
-  return res.render('error/404');
+  return res.end();
 });
 
 app.listen(app.get('port'));
