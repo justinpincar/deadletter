@@ -2,6 +2,10 @@
 
 /* App Module */
 
+if ((window.location.host == "deadletter.io") && (window.location.protocol != "https:")) {
+  window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+}
+
 var deadletter = angular.module('whisper', [], function($httpProvider) {
   // var handlerFactory = function($q, $timeout) {
     // return function(promise) {
