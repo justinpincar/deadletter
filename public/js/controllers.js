@@ -11,9 +11,7 @@ function NavCtrl($scope, $location) {
   };
 }
 
-function AboutCtrl($scope, $http) {
-
-}
+function AboutCtrl($scope, $http) {}
 
 function NotesCtrl($scope, $http) {
   $scope.hasBeenSent = false;
@@ -94,6 +92,8 @@ function UsersCtrl($scope, $http) {
     window.alert("Error: Browser not supported\nReason: We need a cryptographically secure PRNG to be implemented (i.e. the window.crypto method)\nSolution: Use Chrome >= 11, Safari >= 3.1 or Firefox >= 21");
     return;
   }
+
+  $scope.deadletterDropUrl = window.location.protocol + "//" + window.location.host + "/#/d/deadletter";
 
   $scope.encrypt = function() {
     openpgp.init();
