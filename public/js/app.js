@@ -3,19 +3,19 @@
 /* App Module */
 
 var deadletter = angular.module('whisper', [], function($httpProvider) {
-  var handlerFactory = function($q, $timeout) {
-    return function(promise) {
-      return promise.then(function(response) {
-        return $timeout(function() {
-          return response;
-        }, 3000);
-      }, function(response) {
-        return $q.reject(response);
-      });
-    };
-  }
+  // var handlerFactory = function($q, $timeout) {
+    // return function(promise) {
+      // return promise.then(function(response) {
+        // return $timeout(function() {
+          // return response;
+        // }, 3000);
+      // }, function(response) {
+        // return $q.reject(response);
+      // });
+    // };
+  // }
 
-  $httpProvider.responseInterceptors.push(handlerFactory);
+  // $httpProvider.responseInterceptors.push(handlerFactory);
 }).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
