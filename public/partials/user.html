@@ -1,0 +1,33 @@
+<div class="l-center l-top-margin-medium" ng-show="isLoading">
+  <img src="/images/loader.gif"><br />
+  Loading dead drop...
+</div>
+
+<div ng-show="!isLoading">
+  <h2 class="content-subhead">Dead Drop for {{ alias }}</h2>
+
+  <p>
+    Simply write a note, and submit the form. Your message will be encrypted with the user's PGP public key.
+  </p>
+
+  <div class="pure-g">
+    <form class="pure-form pure-form-aligned pure-u-2-3" style="display: block; margin-left: auto; margin-right: auto">
+      <fieldset>
+        <legend>Leave a note in this dead drop</legend>
+        <div class="pure-control-group pure-g">
+          <textarea id="note" class="pure-u-1" placeholder="The text you enter here will be encrypted by your browser using JavaScript." style="height: 120px" ng-disabled="hasBeenSent" ng-model="text"></textarea>
+        </div>
+
+        <button id="send-note" type="submit" class="pure-button pure-button-primary" ng-disabled="isSendDisabled()" ng-click="sendNote()">Submit</button>
+        <img src="/images/loader.gif" class="l-left-margin-small" ng-show="isSending" />
+      </fieldset>
+    </form>
+  </div>
+
+  <div id="note-success" class="l-hidden alert alert-purple">
+    Success, your note has been sent.
+  </div>
+
+  <div id="note-error" ng-hide="error == null" class="alert alert-red">{{ error }}</div>
+</div>
+

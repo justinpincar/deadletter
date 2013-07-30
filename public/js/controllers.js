@@ -96,11 +96,19 @@ function UsersCtrl($scope, $http) {
   $scope.publicKey = '';
   $scope.deadletterDropUrl = window.location.protocol + "//" + window.location.host + "/#/d/deadletter";
   $scope.hasBeenCreated = false;
+  $scope.deadDropUrl = function() {
+    return window.location.protocol + "//" + window.location.host + "/#/d/" + $scope.alias;
+  };
 
   var canSubmit = function() {
     var fieldsPresent = !(($scope.alias.length < 1) || ($scope.password.length < 1) || ($scope.publicKey.length < 1));
     if (!fieldsPresent) {
       $scope.error = "Please fill out all fields.";
+      return false;
+    }
+
+    if (!$scope.alias.match(/^[0-9a-zA-Z_-]+$/)) {
+      $scope.error = "Alias must be alphanumeric.";
       return false;
     }
 
@@ -153,12 +161,76 @@ function UsersCtrl($scope, $http) {
 
     return false;
   };
+}
 
-  $scope.encrypt = function() {
-    openpgp.init();
-    var pub_key = openpgp.read_publicKey($('#pubkey').text());
-    $('#message').val(openpgp.write_encrypted_message(pub_key,$('#message').val()));
-    window.alert("This message is going to be sent:\n" + $('#message').val());
+function UserCtrl($scope, $http, $routeParams) {
+  if (!window.crypto || !window.crypto.getRandomValues) {
+    window.alert("Error: Browser not supported\nReason: We need a cryptographically secure PRNG to be implemented (i.e. the window.crypto method)\nSolution: Use Chrome >= 11, Safari >= 3.1 or Firefox >= 21");
+    return;
+  }
+
+  $scope.alias = $routeParams.alias;
+  $scope.text = '';
+  $scope.hasBeenSent = false;
+  $scope.isSending = false;
+  $scope.isSendDisabled = function() {
+    return ($scope.hasBeenSent || ($scope.text.length == 0));
+  };
+
+  var noteError = function() {
+    $("#drop-error").fadeIn();
+    $scope.error = "Unable to access dead drop. Please check your URL."
+  };
+
+  $scope.isLoading = true;
+  $http({
+    method : 'GET',
+    url : '/users/' + $scope.alias
+  }).success(function(data) {
+    $scope.publicKey = data.publicKey;
+    $scope.isLoading = false;
+    if ($scope.publicKey.length > 0) {
+
+    } else {
+      noteError();
+    }
+  }).error(function() {
+    noteError();
+    $scope.isLoading = false;
+  });
+
+  $scope.sendNote = function() {
+    $scope.isSending = true;
+    $scope.hasBeenSent = true;
+
+    try {
+      openpgp.init();
+      var pub_key = openpgp.read_publicKey($scope.publicKey)[0];
+      var encrypted = openpgp.write_encrypted_message(pub_key, $scope.text);
+      $scope.text = encrypted;
+    } catch (err) {
+      $scope.isSending = false;
+      $scope.error = "Error: Unable to encrypt note.";
+      $("#note-error").fadeIn();
+      return;
+    }
+
+    $http({
+      method : 'POST',
+      url : '/letters',
+      data : {
+        alias: $scope.alias,
+        encrypted: encrypted
+      }
+    }).success(function() {
+      $("#note-success").fadeIn();
+      $scope.isSending = false;
+    }).error(function() {
+      $scope.error = "Error: Unable to send note.";
+      $("#note-error").fadeIn();
+      $scope.isSending = false;
+    });
+
     return false;
   };
 }

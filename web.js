@@ -1,3 +1,5 @@
+// TODO: Add database indices
+
 var async = require('async');
 var express = require('express');
 var path = require('path');
@@ -29,6 +31,7 @@ App.data = {};
 App.sequelize = sequelize;
 App.Models = {};
 App.Models.DeadDrop = require('./models/dead-drop').DeadDrop(sequelize);
+App.Models.Letter = require('./models/letter').Letter(sequelize);
 App.Models.Note = require('./models/note').Note(sequelize);
 
 var app = express();
@@ -61,9 +64,11 @@ app.configure('development', function(){
 var routes = require('./routes')(App);
 
 app.get('/', routes.root);
+app.post('/letters', routes.letters.create);
 app.post('/notes', routes.notes.create);
 app.get('/notes/:salt', routes.notes.show);
 app.post('/users', routes.users.create);
+app.get('/users/:alias', routes.users.show);
 
 app.get('*', function(req, res){
   var fullURL = req.protocol + "://" + req.get('host') + req.url;

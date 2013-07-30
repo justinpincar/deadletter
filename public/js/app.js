@@ -30,6 +30,7 @@ var deadletter = angular.module('whisper', [], function($httpProvider) {
   config(['$routeProvider', '$anchorScrollProvider', function($routeProvider, $anchorScrollProvider) {
   $routeProvider.
     when('/', {templateUrl: 'partials/notes.html', controller: NotesCtrl}).
+    when('/d/:alias', {templateUrl: 'partials/user.html', controller: UserCtrl}).
     when('/n/:salt/:pepper', {templateUrl: 'partials/note.html', controller: NoteCtrl}).
     when('/about', {templateUrl: 'partials/about.html', controller: AboutCtrl}).
     when('/drop', {templateUrl: 'partials/users.html', controller: UsersCtrl}).

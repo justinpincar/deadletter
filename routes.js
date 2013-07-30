@@ -3,6 +3,7 @@ module.exports = function(App) {
     root: function(req, res) {
       return res.render('index');
     },
+    letters: require('./routes/letters')(App),
     notes: require('./routes/notes')(App),
     users: require('./routes/users')(App)
   }

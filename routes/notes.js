@@ -21,7 +21,9 @@ module.exports = function(App) {
         }
 
         note.destroy().success(function() {
-          return res.send(note);
+          return res.send({
+            encrypted: note.encrypted
+          });
         });
       });
     }

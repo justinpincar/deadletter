@@ -37,7 +37,7 @@ You can create a dead drop with the form below, and receive pgp-encrypted messag
 
 <div id="drop-success" class="l-hidden alert alert-purple">
   Dead drop created. Publish this URL to receive encrypted messages:<br />
-  <input class="pure-u-1 note-url" type="text" ng-click="select($event)" value= "http://www.localhost:3000#/d/{{ alias }}" />
+  <input class="pure-u-1 note-url" type="text" ng-click="select($event)" value="{{ deadDropUrl() }}" />
 </div>
 
 <div id="drop-error" class="l-hidden alert alert-red">

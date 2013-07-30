@@ -7,6 +7,7 @@ exports.DeadDrop = function(sequelize) {
       primaryKey: true
     },
     alias: { type: Sequelize.STRING, unique: true },
+    alias_lowercase: { type: Sequelize.STRING, unique: true },
     salt: Sequelize.STRING,
     password: Sequelize.STRING,
     publicKey: Sequelize.TEXT
