@@ -7,6 +7,7 @@ function NavCtrl($scope, $location) {
   $scope.changeView = function(hash) {
     $scope.selectedTab = hash;
     $location.path(hash);
+    return false;
   };
 }
 
