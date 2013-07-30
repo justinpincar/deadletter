@@ -57,6 +57,8 @@ app.post('/notes', routes.notes.create);
 app.get('/notes/:salt', routes.notes.show);
 
 app.get('*', function(req, res){
+  var fullURL = req.protocol + "://" + req.get('host') + req.url;
+  console.log("404 for page: " + fullURL);
   res.status(404);
   return res.render('error/404');
 });
