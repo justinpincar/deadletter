@@ -6,6 +6,10 @@ if ((window.location.host == "deadletter.io") && (window.location.protocol != "h
   window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
 }
 
+$(window).on('load', function() {
+   $("#cover").fadeOut();
+});
+
 var deadletter = angular.module('whisper', [], function($httpProvider) {
   // var handlerFactory = function($q, $timeout) {
     // return function(promise) {
