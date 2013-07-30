@@ -49,10 +49,6 @@ function NotesCtrl($scope, $http) {
 
     return false;
   };
-  $scope.select = function($event) {
-    var el = $event.currentTarget;
-    el.select();
-  };
 }
 
 function NoteCtrl($scope, $http, $routeParams, $timeout) {
@@ -93,7 +89,70 @@ function UsersCtrl($scope, $http) {
     return;
   }
 
+  openpgp.init();
+  $scope.isCreating = false;
+  $scope.alias = '';
+  $scope.password = '';
+  $scope.publicKey = '';
   $scope.deadletterDropUrl = window.location.protocol + "//" + window.location.host + "/#/d/deadletter";
+  $scope.hasBeenCreated = false;
+
+  var canSubmit = function() {
+    var fieldsPresent = !(($scope.alias.length < 1) || ($scope.password.length < 1) || ($scope.publicKey.length < 1));
+    if (!fieldsPresent) {
+      $scope.error = "Please fill out all fields.";
+      return false;
+    }
+
+    try {
+      var pubKey = openpgp.read_publicKey($scope.publicKey)[0];
+      if (pubKey.validate()) {
+        return true;
+      } else {
+        $scope.error = "PGP public key is invalid.";
+        return false;
+      }
+    } catch(err) {
+      $scope.error = "PGP public key is invalid.";
+      return false;
+    }
+  }
+
+  $scope.isCreateDropDisabled = function() {
+    return ($scope.hasBeenCreated || $scope.isCreating);
+  };
+
+  $scope.createDrop = function() {
+    $('#drop-error').fadeOut();
+
+    if (!canSubmit()) {
+      $('#drop-error').fadeIn();
+      return false;
+    }
+
+    var hashedPassword = CryptoJS.SHA3($scope.password).toString();
+
+    $scope.isCreating = true;
+    $http({
+      method : 'POST',
+      url : '/users',
+      data : {
+        alias: $scope.alias,
+        password: hashedPassword,
+        publicKey: $scope.publicKey
+      }
+    }).success(function() {
+      $("#drop-success").fadeIn();
+      $scope.hasBeenCreated = true;
+      $scope.isCreating = false;
+    }).error(function(data) {
+      $scope.error = data;
+      $("#drop-error").fadeIn();
+      $scope.isCreating = false;
+    });
+
+    return false;
+  };
 
   $scope.encrypt = function() {
     openpgp.init();

@@ -9,36 +9,38 @@ You can create a dead drop bucket with the form below, and receive pgp-encrypted
 </ul>
 </p>
 
-<form class="pure-form pure-form-aligned">
-  <fieldset>
-    <div class="pure-control-group">
-      <label for="name">Alias</label>
-      <input id="name" type="text" class="pure-input-1-2" placeholder="Alias">
-    </div>
+<div class="pure-g">
+  <form class="pure-form pure-form-stacked pure-u-2-3" style="display: block; margin-left: auto; margin-right: auto">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="name">Alias</label>
+        <input id="name" type="text" class="pure-input-1" placeholder="Alias" ng-model="alias" ng-disabled="isCreateDropDisabled()">
+      </div>
 
-    <div class="pure-control-group">
-      <label for="password">Password</label>
-      <input id="password" type="password" class="pure-input-1-2" placeholder="Password">
-    </div>
+      <div class="pure-control-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" class="pure-input-1" placeholder="Password" ng-model="password" ng-disabled="isCreateDropDisabled()">
+      </div>
 
-    <div class="pure-control-group">
-      <label for="public-key">PGP Public Key</label>
-      <textarea id="public-key" class="pure-input-1-2" style="height: 100px" placeholder="Copy/paste your PGP public key here."></textarea>
-    </div>
+      <div class="pure-control-group">
+        <label for="public-key">PGP Public Key</label>
+        <textarea id="public-key" class="pure-input-1" style="height: 100px" placeholder="Copy / paste your PGP public key here." ng-model="publicKey" ng-disabled="isCreateDropDisabled()"></textarea>
+      </div>
 
-    <div class="pure-controls">
-      <button type="submit" class="pure-button pure-button-primary">Create Dead Drop</button>
-      <img src="/images/loader.gif" class="l-left-margin-small" ng-show="isCreating" />
-    </div>
-  </fieldset>
-</form>
+      <div class="pure-controls l-top-margin-xsmall">
+        <button type="submit" class="pure-button pure-button-primary" ng-click="createDrop()" ng-disabled="isCreateDropDisabled()">Create Dead Drop</button>
+        <img src="/images/loader.gif" class="l-left-margin-small" ng-show="isCreating" />
+      </div>
+    </fieldset>
+  </form>
+</div>
 
-<div id="note-success" class="alert alert-purple">
+<div id="drop-success" class="l-hidden alert alert-purple">
   Dead drop created. Publish this URL to receive encrypted messages:<br />
   <input class="pure-u-1 note-url" type="text" ng-click="select($event)" value= "http://www.localhost:3000#/d/{{ alias }}" />
 </div>
 
-<div id="note-error" class="alert alert-red">
+<div id="drop-error" class="l-hidden alert alert-red">
   Error: {{ error }}
 </div>
 

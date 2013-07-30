@@ -11,19 +11,21 @@ $(window).on('load', function() {
 });
 
 var deadletter = angular.module('whisper', [], function($httpProvider) {
-  // var handlerFactory = function($q, $timeout) {
-    // return function(promise) {
-      // return promise.then(function(response) {
-        // return $timeout(function() {
-          // return response;
-        // }, 3000);
-      // }, function(response) {
-        // return $q.reject(response);
-      // });
-    // };
-  // }
+  var handlerFactory = function($q, $timeout) {
+    return function(promise) {
+      return promise.then(function(response) {
+        return $timeout(function() {
+          return response;
+        }, 3000);
+      }, function(response) {
+        return $timeout(function() {
+          return $q.reject(response);
+        }, 3000);
+      });
+    };
+  }
 
-  // $httpProvider.responseInterceptors.push(handlerFactory);
+  $httpProvider.responseInterceptors.push(handlerFactory);
 }).
   config(['$routeProvider', '$anchorScrollProvider', function($routeProvider, $anchorScrollProvider) {
   $routeProvider.
@@ -43,6 +45,11 @@ deadletter.run(function($rootScope) {
   $rootScope.$on('$routeChangeSuccess', function() {
     $rootScope.isViewLoading = false;
   });
+
+  $rootScope.select = function($event) {
+    var el = $event.currentTarget;
+    el.select();
+  };
 });
 
 var randomString = function(length) {

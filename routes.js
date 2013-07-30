@@ -3,7 +3,8 @@ module.exports = function(App) {
     root: function(req, res) {
       return res.render('index');
     },
-    notes: require('./routes/notes')(App)
+    notes: require('./routes/notes')(App),
+    users: require('./routes/users')(App)
   }
 }
 

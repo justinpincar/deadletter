@@ -4,6 +4,12 @@ var path = require('path');
 var Sequelize = require('sequelize-postgres').sequelize;
 var postgres  = require('sequelize-postgres').postgres;
 
+if (!String.prototype.trim) {
+  String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g, '');
+  };
+}
+
 var sequelize = new Sequelize('whisper', 'whisper', 'l27yzeG2IqaVrGWxajVd6uZ9mXwkPp6iQg8RBE49UfzKhil8Bgs5VhjHedkaUz7w', {
   host: '127.0.0.1',
   port: '5432',
@@ -22,6 +28,7 @@ var App = {};
 App.data = {};
 App.sequelize = sequelize;
 App.Models = {};
+App.Models.DeadDrop = require('./models/dead-drop').DeadDrop(sequelize);
 App.Models.Note = require('./models/note').Note(sequelize);
 
 var app = express();
@@ -56,6 +63,7 @@ var routes = require('./routes')(App);
 app.get('/', routes.root);
 app.post('/notes', routes.notes.create);
 app.get('/notes/:salt', routes.notes.show);
+app.post('/users', routes.users.create);
 
 app.get('*', function(req, res){
   var fullURL = req.protocol + "://" + req.get('host') + req.url;
