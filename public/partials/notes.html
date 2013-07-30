@@ -7,9 +7,9 @@ Write your message below and submit the form. You will be given a url that provi
 <div class="pure-g">
   <form class="pure-form pure-form-aligned pure-u-2-3" style="display: block; margin-left: auto; margin-right: auto">
     <fieldset>
-      <legend>Create a self-destructing note</legend>
+      <legend>Create a self-destructing, encrypted note</legend>
       <div class="pure-control-group pure-g">
-        <textarea id="note" class="pure-u-1" placeholder="The text you enter here will be encrypted." style="height: 120px" ng-disabled="hasBeenSent" ng-model="text"></textarea>
+        <textarea id="note" class="pure-u-1" placeholder="The text you enter here will be encrypted using JavaScript by your browser." style="height: 120px" ng-disabled="hasBeenSent" ng-model="text"></textarea>
       </div>
 
       <button id="send-note" type="submit" class="pure-button pure-button-primary" ng-disabled="isSendDisabled()" ng-click="sendNote()">Submit</button>
