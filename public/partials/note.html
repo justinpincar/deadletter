@@ -1,12 +1,19 @@
-<h2 class="content-subhead">Message</h2>
+<div class="l-center l-top-margin-medium" ng-show="isLoading">
+  <img src="/images/loader.gif"><br />
+  Loading note...
+</div>
 
-<p>
-Your decrypted message is below. It has already been deleted from the server - you will not be able to access it again.
-</p>
+<div ng-show="!isLoading">
+  <h2 class="content-subhead">Decrypted Message</h2>
 
-<form class="pure-form" ng-hide="error != null">
-  <textarea id="note-decrypted" class="pure-u-2-3" readonly="true" ng-disabled="isSendDisabled">{{ decrypted }}</textarea>
-</form>
+  <p>
+    Your decrypted message is below. It has already been deleted from the server - you will not be able to access it again.
+  </p>
 
-<div id="note-error" ng-hide="error == null" class="alert alert-red">{{ error }}</div>
+  <form class="pure-form" ng-hide="error != null">
+    <textarea id="note-decrypted" class="pure-u-2-3" readonly="true" ng-disabled="isSendDisabled">{{ decrypted }}</textarea>
+  </form>
+
+  <div id="note-error" ng-hide="error == null" class="alert alert-red">{{ error }}</div>
+</div>
 

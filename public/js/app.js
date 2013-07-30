@@ -2,7 +2,21 @@
 
 /* App Module */
 
-angular.module('whisper', []).
+var deadletter = angular.module('whisper', [], function($httpProvider) {
+  var handlerFactory = function($q, $timeout) {
+    return function(promise) {
+      return promise.then(function(response) {
+        return $timeout(function() {
+          return response;
+        }, 3000);
+      }, function(response) {
+        return $q.reject(response);
+      });
+    };
+  }
+
+  $httpProvider.responseInterceptors.push(handlerFactory);
+}).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
     when('/', {templateUrl: 'partials/notes.html', controller: NotesCtrl}).
@@ -12,6 +26,15 @@ angular.module('whisper', []).
     otherwise({redirectTo: '/'});
 }]);
 
+deadletter.run(function($rootScope) {
+  $rootScope.isViewLoading = false;
+  $rootScope.$on('$routeChangeStart', function() {
+    $rootScope.isViewLoading = true;
+  });
+  $rootScope.$on('$routeChangeSuccess', function() {
+    $rootScope.isViewLoading = false;
+  });
+});
 
 var randomString = function(length) {
   var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

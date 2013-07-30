@@ -36,7 +36,11 @@
             </ul>
           </div>
         </div>
-        <div class="content" ng-view></div>
+        <div class="content" ng-show="!isViewLoading" ng-view></div>
+        <div class="content l-center l-top-margin-medium" ng-show="isViewLoading">
+          <img src="/images/loader.gif"><br />
+          Loading page...
+        </div>
       </div>
       <div id="footer">
         Please help keep this site free! BTC donation address: 147Upf42zfnSeCLEcAbTnmm1sMxFqtYqK4

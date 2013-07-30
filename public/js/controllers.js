@@ -23,6 +23,7 @@ function NotesCtrl($scope, $http) {
   $scope.salt = randomString(64);
   $scope.pepper = randomString(64);
   $scope.sendNote = function() {
+    $scope.isSending = true;
     $scope.hasBeenSent = true;
 
     var key = $scope.salt + $scope.pepper;
@@ -41,8 +42,10 @@ function NotesCtrl($scope, $http) {
       var noteUrl = window.location.protocol + "//" + window.location.host + "/#/n/" + $scope.salt + "/" + $scope.pepper;
       $("#note-success input").val(noteUrl);
       $("#note-success").fadeIn();
+      $scope.isSending = false;
     }).error(function() {
       $("#note-error").fadeIn();
+      $scope.isSending = false;
     });
 
     return false;
@@ -64,12 +67,14 @@ function NoteCtrl($scope, $http, $routeParams, $timeout) {
     $scope.error = "Unable to decrypt note. Please ask the sender to provide you with another URL.";
   };
 
+  $scope.isLoading = true;
   $http({
     method : 'GET',
     url : '/notes/' + $scope.salt
   }).success(function(data) {
     $scope.encrypted = data.encrypted;
     $scope.decrypted = CryptoJS.AES.decrypt($scope.encrypted, key).toString(CryptoJS.enc.Utf8);
+    $scope.isLoading = false;
     if ($scope.decrypted.length > 0) {
       $timeout(function() {
         $("textarea").height( $("textarea")[0].scrollHeight );
@@ -79,6 +84,7 @@ function NoteCtrl($scope, $http, $routeParams, $timeout) {
     }
   }).error(function() {
     noteError();
+    $scope.isLoading = false;
   });
 }
 

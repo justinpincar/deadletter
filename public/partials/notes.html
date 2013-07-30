@@ -13,6 +13,7 @@ Write your message below and submit the form. You will be given a url that provi
       </div>
 
       <button id="send-note" type="submit" class="pure-button pure-button-primary" ng-disabled="isSendDisabled()" ng-click="sendNote()">Submit</button>
+      <img src="/images/loader.gif" class="l-left-margin-small" ng-show="isSending" />
     </fieldset>
   </form>
 </div>

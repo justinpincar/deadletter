@@ -28,11 +28,20 @@ body {
   margin-right: auto;
   display: block;
 }
+.l-center {
+  text-align: center;
+}
+.l-left-margin-small {
+  margin-left: 20px;
+}
 .l-hidden {
   display: none;
 }
 .header h1 {
   color: #265778;
+}
+.l-top-margin-medium {
+  margin-top: 40px;
 }
 #header-logo {
   width: 100px;
