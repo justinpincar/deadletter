@@ -177,6 +177,10 @@ function UserCtrl($scope, $http, $routeParams) {
     return ($scope.hasBeenSent || ($scope.text.length == 0));
   };
 
+  $scope.loginUrl = function() {
+    return window.location.protocol + "//" + window.location.host + "/#/l/" + $scope.alias;
+  };
+
   var noteError = function() {
     $("#drop-error").fadeIn();
     $scope.error = "Unable to access dead drop. Please check your URL."
@@ -232,6 +236,73 @@ function UserCtrl($scope, $http, $routeParams) {
     });
 
     return false;
+  };
+}
+
+function LoginCtrl($rootScope, $scope, $http, $routeParams, $location) {
+  $scope.alias = $routeParams.alias;
+  $scope.password = '';
+  $scope.isLoginDisabled = false;
+
+  $scope.signIn = function() {
+    $scope.isLoginDisabled = true;
+    $("#auth-error").fadeOut();
+
+    var hashedPassword = CryptoJS.SHA3($scope.password).toString();
+
+    $http({
+      method : 'POST',
+      url : '/users/auth',
+      data : {
+        alias: $scope.alias,
+        password: hashedPassword
+      }
+    }).success(function() {
+      $rootScope.isAuthenticated = true;
+      $rootScope.alias = $scope.alias;
+      $rootScope.passwordHash = hashedPassword;
+      $location.path('m');
+    }).error(function() {
+      $scope.isLoginDisabled = false;
+      $("#auth-error").fadeIn();
+      $scope.isSending = false;
+    });
+
+    return false;
+  };
+}
+
+function MessagesCtrl($scope, $location, $http) {
+  // TODO: Remove test authentication
+  $scope.isAuthenticated = true;
+  $scope.alias = 'deadletter';
+  $scope.passwordHash = "838235ab36f78648e7c5563c64676fd8d2fb205c75c2cf4d3203bc2ff30fa66e4fb91ce446946152bcf538ffc5c6d6d234ab3c8a638c8c7fc7d2c8a8c63d25ee";
+
+  if (!$scope.isAuthenticated) {
+    $location.path('l/');
+    return;
+  }
+
+  $scope.selectedLetter = null;
+  $scope.letters = [];
+
+  $http({
+    method: 'GET',
+    url: '/letters?alias=' + $scope.alias + '&password=' + $scope.passwordHash
+  }).success(function(letters) {
+    $scope.letters = letters;
+    console.log(letters);
+  }).error(function() {
+    $location.path('l/');
+    return;
+  });
+
+  $scope.formattedCreatedAt = function(createdAt) {
+    return (new Date(createdAt)).toISOString();
+  };
+
+  $scope.selectLetter = function(letter) {
+    $scope.selectedLetter = letter;
   };
 }
 

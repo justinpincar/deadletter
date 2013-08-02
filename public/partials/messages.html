@@ -1,0 +1,21 @@
+<h2 class="content-subhead">Mailbox</h2>
+
+<p>
+  Welcome to your encrypted mailbox.
+</p>
+
+<div class="pure-u-1" style="height: 400px; border: 1px solid black">
+  <div style="width: 160px; float: left; height: 100%; border-right: 1px solid purple; overflow-x: hidden; overflow-y: scroll">
+    <div class="l-padding-xsmall">
+      <div ng-hide="letters.length">No letters.</div>
+      <div class="message-list-item l-padding-bottom-xsmall" ng-repeat="letter in letters" ng-click="selectLetter(letter)">
+        <span class="id-str" ng-class="{selected: (selectedLetter == letter) }">{{ letter.id_str.substr(0, 8) }}</span><br />
+        <span style="font-size: 12px">{{ formattedCreatedAt(letter.createdAt) }}</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-left: 161px; height: 100%; position: relative;">
+    <textarea class="l-padding-xsmall" style="position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; border: none; background: transparent;">{{ selectedLetter.encrypted || "Select a message from the left panel." }}</textarea>
+  </div>
+</form>
+

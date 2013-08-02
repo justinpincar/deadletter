@@ -25,12 +25,14 @@ var deadletter = angular.module('whisper', [], function($httpProvider) {
     };
   }
 
-  $httpProvider.responseInterceptors.push(handlerFactory);
+  // $httpProvider.responseInterceptors.push(handlerFactory);
 }).
   config(['$routeProvider', '$anchorScrollProvider', function($routeProvider, $anchorScrollProvider) {
   $routeProvider.
     when('/', {templateUrl: 'partials/notes.html', controller: NotesCtrl}).
     when('/d/:alias', {templateUrl: 'partials/user.html', controller: UserCtrl}).
+    when('/l/:alias', {templateUrl: 'partials/login.html', controller: LoginCtrl}).
+    when('/m', {templateUrl: 'partials/messages.html', controller: MessagesCtrl}).
     when('/n/:salt/:pepper', {templateUrl: 'partials/note.html', controller: NoteCtrl}).
     when('/about', {templateUrl: 'partials/about.html', controller: AboutCtrl}).
     when('/drop', {templateUrl: 'partials/users.html', controller: UsersCtrl}).
@@ -51,6 +53,9 @@ deadletter.run(function($rootScope) {
     var el = $event.currentTarget;
     el.select();
   };
+  $rootScope.authenticated = false;
+  $rootScope.alias = null;
+  $rootScope.passwordHash = null;
 });
 
 var randomString = function(length) {

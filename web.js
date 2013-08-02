@@ -65,9 +65,11 @@ var routes = require('./routes')(App);
 
 app.get('/', routes.root);
 app.post('/letters', routes.letters.create);
+app.get('/letters', routes.letters.index);
 app.post('/notes', routes.notes.create);
 app.get('/notes/:salt', routes.notes.show);
 app.post('/users', routes.users.create);
+app.post('/users/auth', routes.users.auth);
 app.get('/users/:alias', routes.users.show);
 
 app.get('*', function(req, res){

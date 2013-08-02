@@ -1,0 +1,31 @@
+<h2 class="content-subhead">Sign in</h2>
+
+<p>
+  Access your letters by signing in here. You will still need your PGP private key to decrypt letters.
+</p>
+
+<div class="pure-g">
+  <form class="pure-form pure-form-stacked pure-u-2-3" style="display: block; margin-left: auto; margin-right: auto">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="name">Alias</label>
+        <input id="name" type="text" class="pure-input-1" placeholder="Alias" ng-model="alias" ng-disabled="isLoginDisabled">
+      </div>
+
+      <div class="pure-control-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" class="pure-input-1" placeholder="Password" ng-model="password" ng-disabled="isLoginDisabled">
+      </div>
+
+      <div class="pure-controls l-top-margin-xsmall">
+        <button type="submit" class="pure-button pure-button-primary" ng-click="signIn()" ng-disabled="isLoginDisabled">Sign In</button>
+        <img src="/images/loader.gif" class="l-left-margin-small" ng-show="isLoginDisabled" />
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div id="auth-error" class="l-hidden alert alert-red">
+  Unable to sign in using the alias and password entered.
+</div>
+

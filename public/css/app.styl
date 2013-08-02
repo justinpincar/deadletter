@@ -2,6 +2,9 @@ body
   background: #F5F1E8 url(/images/bg.jpg) top center;
   font-family: 'Source Sans Pro', sans-serif;
 
+html, button, input, select, textarea
+  font-family: 'Source Sans Pro', sans-serif;
+
 .alert
   background: transparent;
   color: #000000;
@@ -31,6 +34,12 @@ body
   margin-right: auto;
   display: block;
 
+.message-list-item
+  cursor: pointer;
+  border-bottom: 1px solid rgb(230, 19, 229)
+  .id-str.selected
+    font-weight: 600
+
 .l-center
   text-align: center;
 
@@ -39,6 +48,12 @@ body
 
 .l-hidden
   display: none;
+
+.l-padding-xsmall
+  padding: 10px;
+
+.l-padding-bottom-xsmall
+  padding-bottom: 10px;
 
 .header
   h1

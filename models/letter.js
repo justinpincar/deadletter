@@ -8,6 +8,7 @@ exports.Letter = function(sequelize) {
     },
     alias_lowercase: Sequelize.STRING,
     encrypted: Sequelize.TEXT,
+    id_str: Sequelize.STRING
   });
   Letter.sync();
   return Letter;
