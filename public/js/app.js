@@ -25,7 +25,7 @@ var deadletter = angular.module('whisper', [], function($httpProvider) {
     };
   }
 
-  $httpProvider.responseInterceptors.push(handlerFactory);
+  // $httpProvider.responseInterceptors.push(handlerFactory);
 }).
   config(['$routeProvider', '$anchorScrollProvider', function($routeProvider, $anchorScrollProvider) {
   $routeProvider.
