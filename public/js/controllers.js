@@ -278,6 +278,8 @@ function MessagesCtrl($scope, $location, $http) {
   $scope.alias = 'deadletter';
   $scope.passwordHash = "838235ab36f78648e7c5563c64676fd8d2fb205c75c2cf4d3203bc2ff30fa66e4fb91ce446946152bcf538ffc5c6d6d234ab3c8a638c8c7fc7d2c8a8c63d25ee";
 
+  $scope.isLoading = true;
+
   if (!$scope.isAuthenticated) {
     $location.path('l/');
     return;
@@ -290,8 +292,14 @@ function MessagesCtrl($scope, $location, $http) {
     method: 'GET',
     url: '/letters?alias=' + $scope.alias + '&password=' + $scope.passwordHash
   }).success(function(letters) {
+    for (var i=0; i<letters.length; i++) {
+      var letter = letters[i];
+      letter.deleteText = "Delete";
+      letter.deleteInitialized = false;
+    }
+
     $scope.letters = letters;
-    console.log(letters);
+    $scope.isLoading = false;
   }).error(function() {
     $location.path('l/');
     return;
@@ -302,7 +310,50 @@ function MessagesCtrl($scope, $location, $http) {
   };
 
   $scope.selectLetter = function(letter) {
+    if ($scope.selectedLetter) {
+      $scope.selectedLetter.deleteText = "Delete";
+      $scope.selectedLetter.deleteInitialized = false;
+    }
+
     $scope.selectedLetter = letter;
+    return false;
+  };
+
+  $scope.deadDropUrl = window.location.protocol + "//" + window.location.host + "/#/d/" + $scope.alias;
+
+  $scope.deleteLetter = function($event, letter)  {
+    $event.stopPropagation();
+
+    if (letter.deleteInitialized) {
+      var i;
+      for (i=0; i<$scope.letters.length; i++) {
+        var tempLetter = $scope.letters[i];
+        if (tempLetter.id == letter.id) {
+          break;
+        }
+      }
+      letter.isDeleting = true;
+
+      $http({
+        method : 'POST',
+        url : '/letters/' + letter.id + '/destroy',
+        data : {
+          alias: $scope.alias,
+          password: $scope.passwordHash
+        }
+      }).success(function() {
+        $scope.letters.splice(i, 1);
+        $scope.selectedLetter = null;
+      }).error(function() {
+        alert("Error, refreshing page.");
+        window.location.reload();
+      });
+    } else {
+      letter.deleteInitialized = true;
+      letter.deleteText = "Confirm delete?";
+    }
+
+    return false;
   };
 }
 

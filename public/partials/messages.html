@@ -1,21 +1,33 @@
-<h2 class="content-subhead">Mailbox</h2>
+<div class="l-center l-top-margin-medium" ng-show="isLoading">
+  <img src="/images/loader.gif"><br />
+  Loading mailbox...
+</div>
 
-<p>
-  Welcome to your encrypted mailbox.
-</p>
+<div ng-show="!isLoading">
+  <h2 class="content-subhead">Mailbox</h2>
 
-<div class="pure-u-1" style="height: 400px; border: 1px solid black">
-  <div style="width: 160px; float: left; height: 100%; border-right: 1px solid purple; overflow-x: hidden; overflow-y: scroll">
-    <div class="l-padding-xsmall">
-      <div ng-hide="letters.length">No letters.</div>
-      <div class="message-list-item l-padding-bottom-xsmall" ng-repeat="letter in letters" ng-click="selectLetter(letter)">
-        <span class="id-str" ng-class="{selected: (selectedLetter == letter) }">{{ letter.id_str.substr(0, 8) }}</span><br />
-        <span style="font-size: 12px">{{ formattedCreatedAt(letter.createdAt) }}</span>
+  <p>
+  Welcome to your encrypted mailbox. Your dead drop URL is below for reference.<br />
+  <input class="pure-u-1 note-url" type="text" ng-click="select($event)" value="{{ deadDropUrl }}" />
+  </p>
+
+  <div class="pure-u-1" style="height: 400px; border: 1px solid black">
+    <div style="width: 160px; float: left; height: 100%; border-right: 1px solid purple; overflow-x: hidden; overflow-y: scroll">
+      <div class="l-padding-xsmall">
+        <div ng-hide="letters.length">No letters.</div>
+        <div class="message-list-item l-padding-bottom-xsmall" ng-repeat="letter in letters" ng-click="selectLetter(letter)">
+          <span class="id-str" ng-class="{selected: (selectedLetter == letter) }">{{ letter.id_str.substr(0, 8) }}</span><br />
+          <span style="font-size: 12px">{{ formattedCreatedAt(letter.createdAt) }}</span>
+          <div style="text-align: right">
+            <button class="pure-button pure-button-xsmall" ng-show="selectedLetter == letter" ng-click="deleteLetter($event, letter)" ng-disabled="letter.isDeleting">{{ letter.deleteText }}</button>
+            <img src="/images/loader.gif" ng-show="letter.isDeleting">
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div style="margin-left: 161px; height: 100%; position: relative;">
-    <textarea class="l-padding-xsmall" style="position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; border: none; background: transparent;">{{ selectedLetter.encrypted || "Select a message from the left panel." }}</textarea>
-  </div>
-</form>
+    <div style="margin-left: 161px; height: 100%; position: relative;">
+      <textarea readonly="true" class="l-padding-xsmall" style="position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; border: none; background: transparent;" ng-click="select($event)">{{ selectedLetter.encrypted || "Select a message from the left panel." }}</textarea>
+    </div>
+  </form>
+</div>
 

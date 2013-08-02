@@ -19,13 +19,12 @@ html, button, input, select, textarea
   &.alert-red
     border: 1px solid rgb(214, 45, 45);
 
-
 .note-url
   display: block;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  background-color: #eee;
+  background-color: transparent;
   border: 1px solid black;
   padding: 6px;
 
@@ -36,9 +35,12 @@ html, button, input, select, textarea
 
 .message-list-item
   cursor: pointer;
-  border-bottom: 1px solid rgb(230, 19, 229)
+  border-bottom: 1px solid #A300A2
   .id-str.selected
     font-weight: 600
+  button
+    margin-top: 4px;
+    border: 1px solid #ccc;
 
 .l-center
   text-align: center;
@@ -119,4 +121,20 @@ html, body
   line-height: 20px;
 
 #cover {position: fixed; height: 100%; width: 100%; top:0; left: 0; background: #000; z-index:9999;}
+
+.pure-button-xsmall {
+  font-size: 70%;
+}
+
+.pure-button-small {
+  font-size: 85%;
+}
+
+.pure-button-large {
+  font-size: 110%;
+}
+
+.pure-button-xlarge {
+  font-size: 125%;
+}
 

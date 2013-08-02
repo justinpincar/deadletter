@@ -30,7 +30,7 @@ textarea {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  background-color: #eee;
+  background-color: transparent;
   border: 1px solid #000;
   padding: 6px;
 }
@@ -41,10 +41,14 @@ textarea {
 }
 .message-list-item {
   cursor: pointer;
-  border-bottom: 1px solid #e613e5;
+  border-bottom: 1px solid #a300a2;
 }
 .message-list-item .id-str.selected {
   font-weight: 600;
+}
+.message-list-item button {
+  margin-top: 4px;
+  border: 1px solid #ccc;
 }
 .l-center {
   text-align: center;
@@ -134,4 +138,16 @@ body {
   left: 0;
   background: #000;
   z-index: 9999;
+}
+.pure-button-xsmall {
+  font-size: 70%;
+}
+.pure-button-small {
+  font-size: 85%;
+}
+.pure-button-large {
+  font-size: 110%;
+}
+.pure-button-xlarge {
+  font-size: 125%;
 }
