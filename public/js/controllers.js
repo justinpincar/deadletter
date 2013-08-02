@@ -359,5 +359,7 @@ function MessagesCtrl($scope, $location, $http) {
   };
 }
 
-function ErrorCtrl() {}
+function ErrorCtrl($scope) {
+  $scope.selectedTab = null;
+}
 
