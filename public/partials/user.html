@@ -6,6 +6,7 @@
 <div ng-show="!isLoading">
   <h2 class="content-subhead">Dead Drop for {{ alias }}</h2>
 
+  <div ng-hide="error404">
   <p>
     Simply write a note, and submit the form. Your message will be encrypted with the owner's PGP public key. If you are the owner of this dead drop, you may access your messages at <a href="{{ loginUrl() }}" target="_blank">{{ loginUrl() }}</a>.
   </p>
@@ -26,6 +27,7 @@
 
   <div id="note-success" class="l-hidden alert alert-purple">
     Success, your note has been encrypted and deposited.
+  </div>
   </div>
 
   <div id="note-error" ng-hide="error == null" class="alert alert-red">{{ error }}</div>

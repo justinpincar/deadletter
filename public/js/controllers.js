@@ -173,6 +173,7 @@ function UserCtrl($scope, $http, $routeParams) {
   $scope.text = '';
   $scope.hasBeenSent = false;
   $scope.isSending = false;
+  $scope.error404 = false;
   $scope.isSendDisabled = function() {
     return ($scope.hasBeenSent || ($scope.text.length == 0));
   };
@@ -193,14 +194,13 @@ function UserCtrl($scope, $http, $routeParams) {
   }).success(function(data) {
     $scope.publicKey = data.publicKey;
     $scope.isLoading = false;
-    if ($scope.publicKey.length > 0) {
-
-    } else {
+    if ($scope.publicKey.length <= 0) {
       noteError();
     }
   }).error(function() {
     noteError();
     $scope.isLoading = false;
+    $scope.error404 = true;
   });
 
   $scope.sendNote = function() {
