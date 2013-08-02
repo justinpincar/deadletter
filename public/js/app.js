@@ -11,26 +11,31 @@ $(window).on('load', function() {
 });
 
 var deadletter = angular.module('whisper', [], function($httpProvider) {
-  // var handlerFactory = function($q, $timeout) {
-    // return function(promise) {
-      // return promise.then(function(response) {
-        // return $timeout(function() {
-          // return response;
-        // }, 3000);
-      // }, function(response) {
-        // return $q.reject(response);
-      // });
-    // };
-  // }
+  var handlerFactory = function($q, $timeout) {
+    return function(promise) {
+      return promise.then(function(response) {
+        return $timeout(function() {
+          return response;
+        }, 3000);
+      }, function(response) {
+        return $timeout(function() {
+          return $q.reject(response);
+        }, 3000);
+      });
+    };
+  }
 
   // $httpProvider.responseInterceptors.push(handlerFactory);
 }).
   config(['$routeProvider', '$anchorScrollProvider', function($routeProvider, $anchorScrollProvider) {
   $routeProvider.
     when('/', {templateUrl: 'partials/notes.html', controller: NotesCtrl}).
+    when('/d/:alias', {templateUrl: 'partials/user.html', controller: UserCtrl}).
+    when('/l/:alias', {templateUrl: 'partials/login.html', controller: LoginCtrl}).
+    when('/m', {templateUrl: 'partials/messages.html', controller: MessagesCtrl}).
     when('/n/:salt/:pepper', {templateUrl: 'partials/note.html', controller: NoteCtrl}).
     when('/about', {templateUrl: 'partials/about.html', controller: AboutCtrl}).
-    when('/users', {templateUrl: 'partials/users.html', controller: UsersCtrl}).
+    when('/drop', {templateUrl: 'partials/users.html', controller: UsersCtrl}).
     otherwise({redirectTo: '/'});
   $anchorScrollProvider.disableAutoScrolling();
 }]).value('$anchorScroll', angular.noop);
@@ -43,6 +48,14 @@ deadletter.run(function($rootScope) {
   $rootScope.$on('$routeChangeSuccess', function() {
     $rootScope.isViewLoading = false;
   });
+
+  $rootScope.select = function($event) {
+    var el = $event.currentTarget;
+    el.select();
+  };
+  $rootScope.authenticated = false;
+  $rootScope.alias = null;
+  $rootScope.passwordHash = null;
 });
 
 var randomString = function(length) {

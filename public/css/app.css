@@ -2,6 +2,13 @@ body {
   background: #f5f1e8 url("/images/bg.jpg") top center;
   font-family: 'Source Sans Pro', sans-serif;
 }
+html,
+button,
+input,
+select,
+textarea {
+  font-family: 'Source Sans Pro', sans-serif;
+}
 .alert {
   background: transparent;
   color: #000;
@@ -23,7 +30,7 @@ body {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  background-color: #eee;
+  background-color: transparent;
   border: 1px solid #000;
   padding: 6px;
 }
@@ -31,6 +38,17 @@ body {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+.message-list-item {
+  cursor: pointer;
+  border-bottom: 1px solid #a300a2;
+}
+.message-list-item .id-str.selected {
+  font-weight: 600;
+}
+.message-list-item button {
+  margin-top: 4px;
+  border: 1px solid #ccc;
 }
 .l-center {
   text-align: center;
@@ -41,8 +59,26 @@ body {
 .l-hidden {
   display: none;
 }
+.l-padding-xsmall {
+  padding: 10px;
+}
+.l-padding-bottom-xsmall {
+  padding-bottom: 10px;
+}
+.l-padding-top-xsmall {
+  padding-top: 10px;
+}
+.l-padding-left-xsmall {
+  padding-left: 10px;
+}
+.l-padding-right-xsmall {
+  padding-right: 10px;
+}
 .header h1 {
   color: #265778;
+}
+.l-top-margin-xsmall {
+  margin-top: 10px;
 }
 .l-top-margin-medium {
   margin-top: 40px;
@@ -111,4 +147,16 @@ body {
   left: 0;
   background: #000;
   z-index: 9999;
+}
+.pure-button-xsmall {
+  font-size: 70%;
+}
+.pure-button-small {
+  font-size: 85%;
+}
+.pure-button-large {
+  font-size: 110%;
+}
+.pure-button-xlarge {
+  font-size: 125%;
 }

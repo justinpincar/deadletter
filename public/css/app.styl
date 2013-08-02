@@ -2,6 +2,9 @@ body
   background: #F5F1E8 url(/images/bg.jpg) top center;
   font-family: 'Source Sans Pro', sans-serif;
 
+html, button, input, select, textarea
+  font-family: 'Source Sans Pro', sans-serif;
+
 .alert
   background: transparent;
   color: #000000;
@@ -16,13 +19,12 @@ body
   &.alert-red
     border: 1px solid rgb(214, 45, 45);
 
-
 .note-url
   display: block;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  background-color: #eee;
+  background-color: transparent;
   border: 1px solid black;
   padding: 6px;
 
@@ -30,6 +32,15 @@ body
   margin-left: auto;
   margin-right: auto;
   display: block;
+
+.message-list-item
+  cursor: pointer;
+  border-bottom: 1px solid #A300A2
+  .id-str.selected
+    font-weight: 600
+  button
+    margin-top: 4px;
+    border: 1px solid #ccc;
 
 .l-center
   text-align: center;
@@ -40,9 +51,27 @@ body
 .l-hidden
   display: none;
 
+.l-padding-xsmall
+  padding: 10px;
+
+.l-padding-bottom-xsmall
+  padding-bottom: 10px;
+
+.l-padding-top-xsmall
+  padding-top: 10px;
+
+.l-padding-left-xsmall
+  padding-left: 10px;
+
+.l-padding-right-xsmall
+  padding-right: 10px;
+
 .header
   h1
     color: #265778;
+
+.l-top-margin-xsmall
+  margin-top: 10px;
 
 .l-top-margin-medium
   margin-top: 40px;
@@ -101,4 +130,20 @@ html, body
   line-height: 20px;
 
 #cover {position: fixed; height: 100%; width: 100%; top:0; left: 0; background: #000; z-index:9999;}
+
+.pure-button-xsmall {
+  font-size: 70%;
+}
+
+.pure-button-small {
+  font-size: 85%;
+}
+
+.pure-button-large {
+  font-size: 110%;
+}
+
+.pure-button-xlarge {
+  font-size: 125%;
+}
 

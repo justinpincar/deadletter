@@ -1,39 +1,46 @@
-To receive pgp-encrypted messages from users, you can create an account on this page. This site stores only the encrypted message - the plaintext note is never sent to our servers. To decrypt, you will need to have your pgp private key available locally. You can optionally store it client-side on your browser using HTML5 local storage.<br />
+<h2 class="content-subhead">Dead Drop</h2>
 
+<p>
+You can create a dead drop with the form below, and receive pgp-encrypted messages from anonymous users. For example, you can view deadletter's dead drop at <a href="{{ deadletterDropUrl }}" target="_blank">{{ deadletterDropUrl }}</a>. To decrypt your messages, you will need to have your pgp private key available locally. You can optionally store your key client-side on your browser using HTML5 local storage.
 <ul>
-  <li>Alias: Publicly viewable name. Used in your personal URL.</li>
-  <li>Password: Allows access to your account. Does not decrypt your messages.</li>
-  <li>Public Key: PGP public key. Used to encrypt messages sent to you.</li>
+  <li>Alias: Publicly viewable name. Used in your dead drop URL.</li>
+  <li>Password: Allows access to your message list. Does not decrypt your messages.</li>
+  <li>Public Key: PGP public key. Used to encrypt messages which are then stored in the dead drop.</li>
 </ul>
+</p>
 
-<form class="pure-form pure-form-aligned">
+<div class="pure-g">
+  <form class="pure-form pure-form-stacked pure-u-2-3" style="display: block; margin-left: auto; margin-right: auto">
     <fieldset>
-        <div class="pure-control-group">
-            <label for="name">Alias</label>
-            <input id="name" type="text" placeholder="Username">
-        </div>
+      <div class="pure-control-group">
+        <label for="name">Alias</label>
+        <input id="name" type="text" class="pure-input-1" placeholder="Alias" ng-model="alias" ng-disabled="isCreateDropDisabled()">
+      </div>
 
-        <div class="pure-control-group">
-            <label for="password">Password</label>
-            <input id="password" type="password" placeholder="Password">
-        </div>
+      <div class="pure-control-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" class="pure-input-1" placeholder="Password" ng-model="password" ng-disabled="isCreateDropDisabled()">
+      </div>
 
-        <div class="pure-control-group">
-            <label for="email">Email Address</label>
-            <input id="email" type="email" placeholder="Email Address">
-        </div>
+      <div class="pure-control-group">
+        <label for="public-key">PGP Public Key</label>
+        <textarea id="public-key" class="pure-input-1" style="height: 100px" placeholder="Copy / paste your PGP public key here." ng-model="publicKey" ng-disabled="isCreateDropDisabled()"></textarea>
+      </div>
 
-        <div class="pure-control-group">
-            <label for="foo">Supercalifragilistic Label</label>
-            <input id="foo" type="text" placeholder="Enter something here...">
-        </div>
-
-        <div class="pure-controls">
-            <label for="cb" class="pure-checkbox">
-                <input id="cb" type="checkbox"> I've read the terms and conditions
-            </label>
-
-            <button type="submit" class="pure-button pure-button-primary">Submit</button>
-        </div>
+      <div class="pure-controls l-top-margin-xsmall">
+        <button type="submit" class="pure-button pure-button-primary" ng-click="createDrop()" ng-disabled="isCreateDropDisabled()">Create Dead Drop</button>
+        <img src="/images/loader.gif" class="l-left-margin-small" ng-show="isCreating" />
+      </div>
     </fieldset>
-</form>
+  </form>
+</div>
+
+<div id="drop-success" class="l-hidden alert alert-purple">
+  Dead drop created. Publish this URL to receive encrypted messages:<br />
+  <input class="pure-u-1 note-url" type="text" ng-click="select($event)" value="{{ deadDropUrl() }}" />
+</div>
+
+<div id="drop-error" class="l-hidden alert alert-red">
+  Error: {{ error }}
+</div>
+
