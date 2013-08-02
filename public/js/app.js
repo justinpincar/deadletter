@@ -36,6 +36,7 @@ var deadletter = angular.module('whisper', [], function($httpProvider) {
     when('/n/:salt/:pepper', {templateUrl: 'partials/note.html', controller: NoteCtrl}).
     when('/about', {templateUrl: 'partials/about.html', controller: AboutCtrl}).
     when('/drop', {templateUrl: 'partials/users.html', controller: UsersCtrl}).
+    when('/error', {templateUrl: 'partials/error.html', controller: ErrorCtrl}).
     otherwise({redirectTo: '/'});
   $anchorScrollProvider.disableAutoScrolling();
 }]).value('$anchorScroll', angular.noop);

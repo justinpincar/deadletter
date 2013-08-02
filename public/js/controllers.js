@@ -83,9 +83,10 @@ function NoteCtrl($scope, $http, $routeParams, $timeout) {
   });
 }
 
-function UsersCtrl($scope, $http) {
+function UsersCtrl($scope, $http, $location) {
   if (!window.crypto || !window.crypto.getRandomValues) {
     window.alert("Error: Browser not supported\nReason: We need a cryptographically secure PRNG to be implemented (i.e. the window.crypto method)\nSolution: Use Chrome >= 11, Safari >= 3.1 or Firefox >= 21");
+    $location.path('error');
     return;
   }
 
@@ -163,9 +164,10 @@ function UsersCtrl($scope, $http) {
   };
 }
 
-function UserCtrl($scope, $http, $routeParams) {
+function UserCtrl($scope, $http, $routeParams, $location) {
   if (!window.crypto || !window.crypto.getRandomValues) {
     window.alert("Error: Browser not supported\nReason: We need a cryptographically secure PRNG to be implemented (i.e. the window.crypto method)\nSolution: Use Chrome >= 11, Safari >= 3.1 or Firefox >= 21");
+    $location.path('error');
     return;
   }
 
@@ -356,4 +358,6 @@ function MessagesCtrl($scope, $location, $http) {
     return false;
   };
 }
+
+function ErrorCtrl() {}
 
