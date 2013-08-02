@@ -209,7 +209,7 @@ function UserCtrl($scope, $http, $routeParams) {
 
     try {
       openpgp.init();
-      var pub_key = openpgp.read_publicKey($scope.publicKey)[0];
+      var pub_key = openpgp.read_publicKey($scope.publicKey);
       var encrypted = openpgp.write_encrypted_message(pub_key, $scope.text);
       $scope.text = encrypted;
     } catch (err) {
@@ -273,10 +273,10 @@ function LoginCtrl($rootScope, $scope, $http, $routeParams, $location) {
 }
 
 function MessagesCtrl($scope, $location, $http) {
-  // TODO: Remove test authentication
-  $scope.isAuthenticated = true;
-  $scope.alias = 'deadletter';
-  $scope.passwordHash = "838235ab36f78648e7c5563c64676fd8d2fb205c75c2cf4d3203bc2ff30fa66e4fb91ce446946152bcf538ffc5c6d6d234ab3c8a638c8c7fc7d2c8a8c63d25ee";
+  // Test authentication
+  // $scope.isAuthenticated = true;
+  // $scope.alias = 'deadletter';
+  // $scope.passwordHash = "838235ab36f78648e7c5563c64676fd8d2fb205c75c2cf4d3203bc2ff30fa66e4fb91ce446946152bcf538ffc5c6d6d234ab3c8a638c8c7fc7d2c8a8c63d25ee";
 
   $scope.isLoading = true;
 
